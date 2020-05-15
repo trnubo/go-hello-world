@@ -49,3 +49,9 @@ dockers:
       - "trnubo/hello-world:{{ .Major }}.{{ .Minor }}.{{ .Patch }}"
       - "trnubo/hello-world:latest"
     skip_push: true
+
+release:
+  github:
+    owner: trnubo
+    name: go-hello-world
+  disable: true
