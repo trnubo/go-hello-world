@@ -1,0 +1,48 @@
+project_name: hello-world
+
+env:
+  - GO111MODULE=on
+
+before:
+  hooks:
+    - go mod download
+
+builds:
+  - binary: hello-world
+    goos:
+      - darwin
+      - linux
+      - windows
+      - freebsd
+    goarch:
+      - amd64
+      - arm
+      - arm64
+      - 386
+    env:
+      - CGO_ENABLED=0
+    ldflags:
+      - -s -w -X github.com/go-hello-world/cmd.Version={{.Tag}} -X github.com/trnubo/go-hello-world/cmd.Commit={{.FullCommit}} -X github.com/trnubo/go-hello-world/cmd.Date={{.Date}}
+    ignore:
+      - goos: darwin
+        goarch: 386
+      - goos: windows
+        goarch: 386
+      - goos: freebsd
+        goarch: arm
+
+snapshot:
+  name_template: "git-{{.ShortCommit}}"
+
+archives:
+  - format_overrides:
+      - goos: windows
+        format: zip
+
+dockers:
+  - image_templates:
+      - "trnubo/hello-world:{{ .Major }}"
+      - "trnubo/hello-world:{{ .Major }}.{{ .Minor }}"
+      - "trnubo/hello-world:{{ .Major }}.{{ .Minor }}.{{ .Patch }}"
+      - "trnubo/hello-world:latest"
+    skip_push: true
