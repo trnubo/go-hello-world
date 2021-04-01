@@ -22,7 +22,7 @@ builds:
     env:
       - CGO_ENABLED=0
     ldflags:
-      - -s -w -X github.com/go-hello-world/cmd.Version={{.Version}} -X github.com/trnubo/go-hello-world/cmd.Commit={{.FullCommit}} -X github.com/trnubo/go-hello-world/cmd.Date={{.Date}}
+      - -s -w -X github.com/trnubo/go-hello-world/cmd.Version={{.Version}} -X github.com/trnubo/go-hello-world/cmd.Commit={{.FullCommit}} -X github.com/trnubo/go-hello-world/cmd.Date={{.Date}}
     ignore:
       - goos: darwin
         goarch: 386

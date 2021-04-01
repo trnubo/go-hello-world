@@ -1,0 +1,49 @@
+name: build
+
+on:
+  push:
+    branches:
+      - 'master'
+    tags:
+      - 'v*'
+  pull_requests:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      DOCKER_CLI_EXPERIMENTAL: "enabled"
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+         fetch-depth: 0
+
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: '1.16'
+
+      - name: Install GoReleaser
+        uses: goreleaser/goreleaser-action@v2
+        with:
+          install-only: true
+
+      - name: Cache Go modules
+        uses: actions/cache@v2
+        with:
+          path: ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runners.os }}-go-
+
+      - name: GoReleaser
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [[ $GITHUB_REF == refs/tags/v* ]]; then
+            goreleaser
+          elif [[ $GITHUB_REF == refs/heads/master ]]; then
+            goreleaser --snapshot
+          fi
