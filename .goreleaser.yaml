@@ -47,7 +47,7 @@ dockers:
       - "trnubo/hello-world:{{ .Major }}.{{ .Minor }}"
       - "trnubo/hello-world:{{ .Major }}.{{ .Minor }}.{{ .Patch }}"
       - "trnubo/hello-world:latest"
-    skip_push: true
+    skip_push: false
 
 release:
   github:
