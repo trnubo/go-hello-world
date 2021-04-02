@@ -38,6 +38,14 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-go-
 
+      - name: Make Setup
+        run: |
+          make setup
+
+      - name: Make CI
+        run: |
+          make ci
+
       - name: GoReleaser
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

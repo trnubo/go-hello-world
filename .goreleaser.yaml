@@ -53,4 +53,5 @@ release:
   github:
     owner: trnubo
     name: go-hello-world
-  disable: true
+  draft: true
+  disable: false
